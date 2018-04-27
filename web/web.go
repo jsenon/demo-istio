@@ -46,6 +46,11 @@ func Index(res http.ResponseWriter, req *http.Request) {
 	}
 	// fmt.Println(ip)
 	_, err = io.WriteString(res, "Hello, Im Service version 1.3\n"+"My IP is: "+ip+"\n")
+	logger.Info("mydemo",
+		zap.String("status", "INFO"),
+		zap.Int("statusCode", 200),
+		zap.Duration("backoff", time.Second),
+	)
 	if err != nil {
 		logger.Error("mydemo",
 			zap.String("status", "ERROR"),
