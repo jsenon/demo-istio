@@ -54,6 +54,6 @@ curl -X GET 127.0.0.1:9010
 
 If you receive `cannot execute binary file: Exec format error`
 
-Compile with  `CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.go`
+Compile with  `CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build demoserver.go`
 
 And build `docker build -t jsenon/demo-istio:vx.x .`
