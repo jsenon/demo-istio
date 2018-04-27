@@ -20,6 +20,7 @@ import (
 	"io"
 	"net"
 	"net/http"
+	"os"
 	"time"
 
 	"go.uber.org/zap"
@@ -45,7 +46,11 @@ func Index(res http.ResponseWriter, req *http.Request) {
 		fmt.Println(err)
 	}
 	// fmt.Println(ip)
-	_, err = io.WriteString(res, "Hello, Im Service version 1.3\n"+"My IP is: "+ip+"\n")
+	myversion := os.Getenv("MY_VERSION")
+	if myversion == "" {
+		myversion = "0.0.1"
+	}
+	_, err = io.WriteString(res, "Hello, Im Service version: "+myversion+"\n"+"My IP is: "+ip+"\n")
 	logger.Info("mydemo",
 		zap.String("status", "INFO"),
 		zap.Int("statusCode", 200),
