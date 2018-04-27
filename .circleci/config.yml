@@ -39,4 +39,4 @@ jobs:
       - run:
           name: Push to registry
           command: |
-            docker push jsenon/demo-istio:develop
+            docker push $DOCKER_USER/demo-istio:develop
