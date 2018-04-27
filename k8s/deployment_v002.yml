@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: demo-istio-deploy-v0.0.2
 spec:
-  replicas: 3
+  replicas: 2
   template:
     metadata:
       labels:
