@@ -24,7 +24,7 @@ docker build -t jsenon/demo-istio:vX.X .
 ### Launch Container
 
 ```
-docker run -d -p 80:9030 jsenon/demo-istio:vX.X
+docker run -d -p 80:9010 jsenon/demo-istio:vX.X
 ```
 
 ### Func

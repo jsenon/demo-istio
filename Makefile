@@ -33,5 +33,9 @@ publish:
 	docker push $(DOCKER_USER)/demo-istio:$(APP_VERSION)
 clean:
 	rm -rf demo-istio
+lint:
+	go get -u github.com/alecthomas/gometalinter
+	gometalinter ./...
+
 
 

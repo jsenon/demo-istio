@@ -29,18 +29,36 @@ import (
 
 // Index func to display all server on table view
 func Index(res http.ResponseWriter, req *http.Request) {
+	logger, err := zap.NewProduction()
+	if err != nil {
+		logger.Error("mydemo",
+			zap.String("status", "ERROR"),
+			zap.Int("statusCode", 500),
+			zap.Duration("backoff", time.Second),
+			zap.Error(err),
+		)
+	}
+	defer logger.Sync() // nolint: errcheck
 	// var rs Server
 	ip, err := externalIP()
 	if err != nil {
 		fmt.Println(err)
 	}
 	// fmt.Println(ip)
-	io.WriteString(res, "Hello, Im Service version 1.3\n"+"My IP is: "+ip+"\n")
+	_, err = io.WriteString(res, "Hello, Im Service version 1.3\n"+"My IP is: "+ip+"\n")
+	if err != nil {
+		logger.Error("mydemo",
+			zap.String("status", "ERROR"),
+			zap.Int("statusCode", 500),
+			zap.Duration("backoff", time.Second),
+			zap.Error(err),
+		)
+	}
 
 }
 
 // externalIP func that display ip of pod
-func externalIP() (string, error) {
+func externalIP() (string, error) { // nolint: gocyclo
 	logger, err := zap.NewProduction()
 	if err != nil {
 		logger.Error("mydemo",
@@ -72,14 +90,12 @@ func externalIP() (string, error) {
 		}
 		addrs, err := iface.Addrs()
 		if err != nil {
-			if err != nil {
-				logger.Error("mydemo",
-					zap.String("status", "ERROR"),
-					zap.Int("statusCode", 500),
-					zap.Duration("backoff", time.Second),
-					zap.Error(err),
-				)
-			}
+			logger.Error("mydemo",
+				zap.String("status", "ERROR"),
+				zap.Int("statusCode", 500),
+				zap.Duration("backoff", time.Second),
+				zap.Error(err),
+			)
 			return "", err
 		}
 		for _, addr := range addrs {

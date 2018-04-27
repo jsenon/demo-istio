@@ -18,14 +18,26 @@ package main
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/jsenon/demo-istio/api"
 	"github.com/jsenon/demo-istio/web"
+	"go.uber.org/zap"
 )
 
 func main() {
+	logger, err := zap.NewProduction()
+	if err != nil {
+		logger.Error("mydemo",
+			zap.String("status", "ERROR"),
+			zap.Int("statusCode", 500),
+			zap.Duration("backoff", time.Second),
+			zap.Error(err),
+		)
+	}
+	defer logger.Sync() // nolint: errcheck
 
 	r := mux.NewRouter()
 
@@ -44,5 +56,13 @@ func main() {
 	r.HandleFunc("/healthz", api.Health).Methods("GET")
 	r.HandleFunc("/.well-known", api.Wellknown).Methods("GET")
 
-	http.ListenAndServe(":9010", handlers.CORS(originsOk, headersOk, methodsOk)(r))
+	err = http.ListenAndServe(":9010", handlers.CORS(originsOk, headersOk, methodsOk)(r))
+	if err != nil {
+		logger.Error("mydemo",
+			zap.String("status", "ERROR"),
+			zap.Int("statusCode", 500),
+			zap.Duration("backoff", time.Second),
+			zap.Error(err),
+		)
+	}
 }

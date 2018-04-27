@@ -60,7 +60,15 @@ func Health(w http.ResponseWriter, req *http.Request) {
 		fmt.Println("Rand:", myrand)
 		if myrand == 5 {
 			w.WriteHeader(http.StatusServiceUnavailable)
-			w.Write([]byte("503 - Now, young Skywalker, you will die"))
+			_, err := w.Write([]byte("503 - Now, young Skywalker, you will die"))
+			if err != nil {
+				logger.Error("mydemo",
+					zap.String("status", "ERROR"),
+					zap.Int("statusCode", 500),
+					zap.Duration("backoff", time.Second),
+					zap.Error(err),
+				)
+			}
 			logger.Error("mydemo",
 				zap.String("status", "ERROR"),
 				zap.Int("statusCode", 503),
@@ -69,7 +77,15 @@ func Health(w http.ResponseWriter, req *http.Request) {
 		}
 	} else {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("200 - Chewie, we’re home"))
+		_, err := w.Write([]byte("200 - Chewie, we’re home"))
+		if err != nil {
+			logger.Error("mydemo",
+				zap.String("status", "ERROR"),
+				zap.Int("statusCode", 500),
+				zap.Duration("backoff", time.Second),
+				zap.Error(err),
+			)
+		}
 		logger.Info("mydemo",
 			zap.String("status", "INFO"),
 			zap.Int("statusCode", 200),
@@ -104,5 +120,13 @@ func Wellknown(w http.ResponseWriter, req *http.Request) {
 			zap.Error(err),
 		)
 	}
-	w.Write(b)
+	_, err = w.Write(b)
+	if err != nil {
+		logger.Error("mydemo",
+			zap.String("status", "ERROR"),
+			zap.Int("statusCode", 500),
+			zap.Duration("backoff", time.Second),
+			zap.Error(err),
+		)
+	}
 }
