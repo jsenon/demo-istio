@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1 # for versions before 1.8.0 use apps/v1beta1
+kind: Deployment
+metadata:
+  name: demo-istio-deploy-v0.0.1
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: demo-istio
+        version: v.0.0.1
+    spec:
+      containers:
+      - name: demo-istio
+        image: docker.io/jsenon/demo-istio:develop
+        env:
+        - name: MY_VERSION
+          value: "v.0.0.1"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9010

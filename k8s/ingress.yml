@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: demo-istio-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: istio
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /demo-istio/.*
+        backend:
+          serviceName: demo-istio-svc
+          servicePort: 80
