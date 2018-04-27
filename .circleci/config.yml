@@ -24,12 +24,27 @@ jobs:
 
 
       # specify any bash command here prefixed with `run: `
-      - run: go get -v -t -d ./...
-      - run: go test -v ./...
-      - run: go get -u github.com/alecthomas/gometalinter
-      - run: gometalinter ./...
-      - run: bash <(curl -s https://codecov.io/bash)
-      - run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build 
+      - run: 
+          name: Get dependencies
+          command: |
+            go get -v -t -d ./...
+      - run: 
+          name: Test
+          command: |
+            go test -v ./...
+      - run: 
+          name: Lint
+          command: |
+          go get -u github.com/alecthomas/gometalinter
+          gometalinter ./...
+      - run: 
+          name: Code Coverage
+          command: |
+            bash <(curl -s https://codecov.io/bash)
+      - run: 
+          name: Build App
+          command: |
+            CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build 
       - run:
           name: Build application Docker image
           command: |
