@@ -35,8 +35,8 @@ jobs:
       - run: 
           name: Lint
           command: |
-          go get -u github.com/alecthomas/gometalinter
-          gometalinter ./...
+            go get -u github.com/alecthomas/gometalinter
+            gometalinter ./...
       - run: 
           name: Code Coverage
           command: |
