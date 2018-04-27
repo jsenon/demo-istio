@@ -49,7 +49,7 @@ func Health(w http.ResponseWriter, req *http.Request) {
 	myhead := req.Header.Get("X-Custom-Error")
 	if myhead == "true" {
 		myrand := rand.Intn(6)
-		if myrand <= 0 {
+		if myrand < 0 {
 			logger.Error("mydemo",
 				zap.String("status", "ERROR"),
 				zap.Int("statusCode", 500),
