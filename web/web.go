@@ -32,7 +32,7 @@ import (
 func Index(res http.ResponseWriter, req *http.Request) {
 	logger, err := zap.NewProduction()
 	if err != nil {
-		logger.Error("mydemo",
+		logger.Error("Failed to create zap logger",
 			zap.String("status", "ERROR"),
 			zap.Int("statusCode", 500),
 			zap.Duration("backoff", time.Second),
@@ -51,13 +51,13 @@ func Index(res http.ResponseWriter, req *http.Request) {
 		myversion = "0.0.1"
 	}
 	_, err = io.WriteString(res, "Hello, Im Service version: "+myversion+"\n"+"My IP is: "+ip+"\n")
-	logger.Info("mydemo",
+	logger.Info("Sucessfully render information",
 		zap.String("status", "INFO"),
 		zap.Int("statusCode", 200),
 		zap.Duration("backoff", time.Second),
 	)
 	if err != nil {
-		logger.Error("mydemo",
+		logger.Error("Failed to render information",
 			zap.String("status", "ERROR"),
 			zap.Int("statusCode", 500),
 			zap.Duration("backoff", time.Second),

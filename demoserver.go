@@ -33,7 +33,7 @@ import (
 func main() {
 	logger, err := zap.NewProduction()
 	if err != nil {
-		logger.Error("mydemo",
+		logger.Error("Failed to create zap logger",
 			zap.String("status", "ERROR"),
 			zap.Int("statusCode", 500),
 			zap.Duration("backoff", time.Second),
@@ -55,6 +55,7 @@ func main() {
 	myjaeger := os.Getenv("MY_JAEGER_AGENT")
 	// Check if Jaeger variable has been set
 	if myjaeger != "" {
+		spanname := os.Getenv("MY_SVC_SPAN_NAME")
 		zipkinPropagator := zipkin.NewZipkinB3HTTPHeaderPropagator()
 		injector := jaeger.TracerOptions.Injector(opentracing.HTTPHeaders, zipkinPropagator)
 		extractor := jaeger.TracerOptions.Extractor(opentracing.HTTPHeaders, zipkinPropagator)
@@ -63,7 +64,7 @@ func main() {
 		// sender, _ := jaeger.NewUDPTransport("jaeger-agent.istio-system:5775", 0)
 		sender, _ := jaeger.NewUDPTransport(myjaeger, 0)
 		tracer, closer := jaeger.NewTracer(
-			"mydemo",
+			spanname,
 			jaeger.NewConstSampler(true),
 			jaeger.NewRemoteReporter(
 				sender,
@@ -75,7 +76,7 @@ func main() {
 		defer closer.Close() // nolint: errcheck
 		err = http.ListenAndServe(":9010", nethttp.Middleware(tracer, http.DefaultServeMux))
 		if err != nil {
-			logger.Error("mydemo",
+			logger.Error("Failed to start web server",
 				zap.String("status", "ERROR"),
 				zap.Int("statusCode", 500),
 				zap.Duration("backoff", time.Second),
@@ -86,7 +87,7 @@ func main() {
 		// If no Jaeger variable set we don't propagate header
 		err = http.ListenAndServe(":9010", nil)
 		if err != nil {
-			logger.Error("mydemo",
+			logger.Error("Failed to start web server",
 				zap.String("status", "ERROR"),
 				zap.Int("statusCode", 500),
 				zap.Duration("backoff", time.Second),

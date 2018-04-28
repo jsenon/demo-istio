@@ -39,7 +39,7 @@ type statusjson struct {
 func Health(w http.ResponseWriter, req *http.Request) {
 	logger, err := zap.NewProduction()
 	if err != nil {
-		logger.Error("mydemo",
+		logger.Error("Failed to create zap logger",
 			zap.String("status", "ERROR"),
 			zap.Int("statusCode", 500),
 			zap.Duration("backoff", time.Second),
@@ -52,7 +52,7 @@ func Health(w http.ResponseWriter, req *http.Request) {
 	if myhead == "true" {
 		myrand := rand.Intn(6)
 		if myrand < 0 {
-			logger.Error("mydemo",
+			logger.Error("Failed to get header",
 				zap.String("status", "ERROR"),
 				zap.Int("statusCode", 500),
 				zap.Duration("backoff", time.Second),
@@ -64,14 +64,14 @@ func Health(w http.ResponseWriter, req *http.Request) {
 			w.WriteHeader(http.StatusServiceUnavailable)
 			_, err := w.Write([]byte("503 - Now, young Skywalker, you will die"))
 			if err != nil {
-				logger.Error("mydemo",
+				logger.Error("Failed to write output",
 					zap.String("status", "ERROR"),
 					zap.Int("statusCode", 500),
 					zap.Duration("backoff", time.Second),
 					zap.Error(err),
 				)
 			}
-			logger.Error("mydemo",
+			logger.Error("Failed this is a simulation Normal error",
 				zap.String("status", "ERROR"),
 				zap.Int("statusCode", 503),
 				zap.Duration("backoff", time.Second),
@@ -81,7 +81,7 @@ func Health(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		_, err := w.Write([]byte("200 - Chewie, we’re home"))
 		if err != nil {
-			logger.Error("mydemo",
+			logger.Error("Failed to write output",
 				zap.String("status", "ERROR"),
 				zap.Int("statusCode", 500),
 				zap.Duration("backoff", time.Second),
@@ -101,7 +101,7 @@ func Health(w http.ResponseWriter, req *http.Request) {
 func Wellknown(w http.ResponseWriter, req *http.Request) {
 	logger, err := zap.NewProduction()
 	if err != nil {
-		logger.Error("mydemo",
+		logger.Error("Failed to create zap logger",
 			zap.String("status", "ERROR"),
 			zap.Int("statusCode", 500),
 			zap.Duration("backoff", time.Second),
@@ -115,7 +115,7 @@ func Wellknown(w http.ResponseWriter, req *http.Request) {
 	}
 	b, err := json.Marshal(answerjson)
 	if err != nil {
-		logger.Error("mydemo",
+		logger.Error("Failed to Marshal",
 			zap.String("status", "ERROR"),
 			zap.Int("statusCode", 500),
 			zap.Duration("backoff", time.Second),
@@ -124,7 +124,7 @@ func Wellknown(w http.ResponseWriter, req *http.Request) {
 	}
 	_, err = w.Write(b)
 	if err != nil {
-		logger.Error("mydemo",
+		logger.Error("Failed to write output",
 			zap.String("status", "ERROR"),
 			zap.Int("statusCode", 500),
 			zap.Duration("backoff", time.Second),
@@ -137,7 +137,7 @@ func Wellknown(w http.ResponseWriter, req *http.Request) {
 func Play(w http.ResponseWriter, req *http.Request) {
 	logger, err := zap.NewProduction()
 	if err != nil {
-		logger.Error("mydemo",
+		logger.Error("Failed to create zap logger",
 			zap.String("status", "ERROR"),
 			zap.Int("statusCode", 500),
 			zap.Duration("backoff", time.Second),
@@ -151,7 +151,7 @@ func Play(w http.ResponseWriter, req *http.Request) {
 	client := &http.Client{}
 	post, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		logger.Error("mydemo",
+		logger.Error("Failed to create request",
 			zap.String("status", "ERROR"),
 			zap.Int("statusCode", 500),
 			zap.Duration("backoff", time.Second),
@@ -169,16 +169,7 @@ func Play(w http.ResponseWriter, req *http.Request) {
 	}
 	resp, err := client.Do(post)
 	if err != nil {
-		logger.Error("mydemo",
-			zap.String("status", "ERROR"),
-			zap.Int("statusCode", 500),
-			zap.Duration("backoff", time.Second),
-			zap.Error(err),
-		)
-	}
-	defer resp.Body.Close() // nolint: errcheck
-	if err != nil {
-		logger.Error("mydemo",
+		logger.Error("Failed to send http get",
 			zap.String("status", "ERROR"),
 			zap.Int("statusCode", 500),
 			zap.Duration("backoff", time.Second),
@@ -188,7 +179,7 @@ func Play(w http.ResponseWriter, req *http.Request) {
 	defer resp.Body.Close() // nolint: errcheck
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		logger.Error("mydemo",
+		logger.Error("Failed to read body",
 			zap.String("status", "ERROR"),
 			zap.Int("statusCode", 500),
 			zap.Duration("backoff", time.Second),
@@ -198,7 +189,7 @@ func Play(w http.ResponseWriter, req *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	_, err = w.Write(body)
 	if err != nil {
-		logger.Error("mydemo",
+		logger.Error("Failed to write body",
 			zap.String("status", "ERROR"),
 			zap.Int("statusCode", 500),
 			zap.Duration("backoff", time.Second),
@@ -216,7 +207,7 @@ func Play(w http.ResponseWriter, req *http.Request) {
 func Pong(w http.ResponseWriter, req *http.Request) {
 	logger, err := zap.NewProduction()
 	if err != nil {
-		logger.Error("mydemo",
+		logger.Error("Failed to create zap logger",
 			zap.String("status", "ERROR"),
 			zap.Int("statusCode", 500),
 			zap.Duration("backoff", time.Second),
@@ -236,7 +227,7 @@ func Pong(w http.ResponseWriter, req *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	_, err = w.Write([]byte("200 - Pong"))
 	if err != nil {
-		logger.Error("mydemo",
+		logger.Error("Failed to write output",
 			zap.String("status", "ERROR"),
 			zap.Int("statusCode", 500),
 			zap.Duration("backoff", time.Second),
