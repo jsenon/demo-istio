@@ -15,7 +15,9 @@
 package api
 
 import (
+	"io/ioutil"
 	"net/http"
+	"os"
 	"time"
 
 	"encoding/json"
@@ -129,4 +131,84 @@ func Wellknown(w http.ResponseWriter, req *http.Request) {
 			zap.Error(err),
 		)
 	}
+}
+
+// Play func launch ping to target answer server
+func Play(w http.ResponseWriter, req *http.Request) {
+	logger, err := zap.NewProduction()
+	if err != nil {
+		logger.Error("mydemo",
+			zap.String("status", "ERROR"),
+			zap.Int("statusCode", 500),
+			zap.Duration("backoff", time.Second),
+			zap.Error(err),
+		)
+	}
+	defer logger.Sync() // nolint: errcheck
+	svc := os.Getenv("MY_TARGET_PING_SVC")
+	port := os.Getenv("MY_TARGET_PING_PORT")
+	url := "http://" + svc + ":" + port + "/ping"
+	resp, err := http.Get(url)
+	if err != nil {
+		logger.Error("mydemo",
+			zap.String("status", "ERROR"),
+			zap.Int("statusCode", 500),
+			zap.Duration("backoff", time.Second),
+			zap.Error(err),
+		)
+	}
+	defer resp.Body.Close() // nolint: errcheck
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		logger.Error("mydemo",
+			zap.String("status", "ERROR"),
+			zap.Int("statusCode", 500),
+			zap.Duration("backoff", time.Second),
+			zap.Error(err),
+		)
+	}
+	w.WriteHeader(http.StatusOK)
+	_, err = w.Write(body)
+	if err != nil {
+		logger.Error("mydemo",
+			zap.String("status", "ERROR"),
+			zap.Int("statusCode", 500),
+			zap.Duration("backoff", time.Second),
+			zap.Error(err),
+		)
+	}
+	logger.Info("mydemo",
+		zap.String("status", "INFO"),
+		zap.Int("statusCode", 200),
+		zap.Duration("backoff", time.Second),
+	)
+}
+
+// Pong func reply to api ping
+func Pong(w http.ResponseWriter, req *http.Request) {
+	logger, err := zap.NewProduction()
+	if err != nil {
+		logger.Error("mydemo",
+			zap.String("status", "ERROR"),
+			zap.Int("statusCode", 500),
+			zap.Duration("backoff", time.Second),
+			zap.Error(err),
+		)
+	}
+	defer logger.Sync() // nolint: errcheck
+	w.WriteHeader(http.StatusOK)
+	_, err = w.Write([]byte("200 - Pong"))
+	if err != nil {
+		logger.Error("mydemo",
+			zap.String("status", "ERROR"),
+			zap.Int("statusCode", 500),
+			zap.Duration("backoff", time.Second),
+			zap.Error(err),
+		)
+	}
+	logger.Info("mydemo",
+		zap.String("status", "INFO"),
+		zap.Int("statusCode", 200),
+		zap.Duration("backoff", time.Second),
+	)
 }

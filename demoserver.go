@@ -51,10 +51,10 @@ func main() {
 	r.HandleFunc("/", web.Index)
 
 	// API Part
-
-	// Health Check
 	r.HandleFunc("/healthz", api.Health).Methods("GET")
 	r.HandleFunc("/.well-known", api.Wellknown).Methods("GET")
+	r.HandleFunc("/play", api.Play).Methods("GET")
+	r.HandleFunc("/ping", api.Pong).Methods("GET")
 
 	err = http.ListenAndServe(":9010", handlers.CORS(originsOk, headersOk, methodsOk)(r))
 	if err != nil {

@@ -7,24 +7,15 @@ This is a Server in order to illustrate service mesh Istio
 
 ## Build
 
-Build version
+Build docker container
 ```
-go build demoserver.go
-```
-
-Check name of your binairies against name used in dockerfile
-
-
-### Create Container
-
-```
-docker build -t jsenon/demo-istio:vX.X .
+make build
 ```
 
 ### Launch Container
 
 ```
-docker run -d -p 80:9010 -e MY_VERSION=x.x.x jsenon/demo-istio:vX.X
+docker run -d -p 9010:9010 -e MY_VERSION=x.x.x jsenon/demo-istio:vX.X
 ```
 
 ### Func
@@ -32,6 +23,7 @@ docker run -d -p 80:9010 -e MY_VERSION=x.x.x jsenon/demo-istio:vX.X
 - Web Server with IP and Version 
 - API generate 200
 - API generate 503 randomly
+- API ping/pong
 
 ### Usage
 
@@ -49,6 +41,20 @@ Web Server
 ```
 curl -X GET 127.0.0.1:9010
 ```
+
+You can generate a ping/pong to another endpoint/server 
+
+Defined target server by env MY_TARGET_PING_SVC/MY_TARGET_PING_PORT
+```
+curl -X POST 127.0.0.1:9010/play
+```
+You can answer to a ping from another andpoint/server by a pong
+
+### Env
+
+- `MY_VERSION` = Set Application version ie v.0.0.1
+- `MY_TARGET_PING_SVC` = IP of target service for ping ie. 127.0.0.1
+- `MY_TARGET_PING_PORT` = Port of target service for ping ie. 9010
 
 ### TIPS
 
