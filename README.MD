@@ -22,7 +22,7 @@ make build
 ### Launch Container
 
 ```
-docker run -d -p 9010:9010 -e MY_VERSION="v.x.x.x" -e MY_TARGET_PING_SVC="xxx" -e MY_TARGET_PING_PORT="80" jsenon/demo-istio:vX.X
+docker run -d -p 9010:9010 -e MY_VERSION="v.x.x.x" -e MY_TARGET_PING_SVC="xxx" -e MY_TARGET_PING_PORT="80" jsenon/demo-istio:develop
 ```
 
 ### Usage
