@@ -28,7 +28,7 @@ build:
 	docker build $(DOCKER_BUILD_ARGS) -t $(DOCKER_USER)/demo-istio:$(APP_VERSION)  .
 lint:
 	go get -u github.com/alecthomas/gometalinter
-	gometalinter ./... --exclude=vendor
+	gometalinter ./... --exclude=vendor --deadline=60
 
 #-----------------------------------------------------------------------------
 # PUBLISH
