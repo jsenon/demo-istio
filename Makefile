@@ -16,8 +16,9 @@ APP_VERSION := develop
 .PHONY: default build test publish build_local lint
 default: depend test lint build 
 
-depend: 
-	go get -v -t -d ./...
+depend:
+	go get -d -u github.com/golang/dep
+	dep ensure
 test:
 	go test -v ./...
 build_local:
