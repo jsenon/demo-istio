@@ -72,7 +72,7 @@ func main() {
 			extractor,
 			zipkinSharedRPCSpan,
 		)
-		defer closer.Close()
+		defer closer.Close() // nolint: errcheck
 		err = http.ListenAndServe(":9010", nethttp.Middleware(tracer, http.DefaultServeMux))
 		if err != nil {
 			logger.Error("mydemo",
