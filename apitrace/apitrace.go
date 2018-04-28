@@ -37,7 +37,7 @@ func Play(w http.ResponseWriter, req *http.Request) {
 	defer logger.Sync() // nolint: errcheck
 
 	svc := os.Getenv("MY_TARGET_PING_SVC")
-	port := os.Getenv("MY_TARGET_PING_PORT")
+	port := os.Getenv("MY_TARGET_PING_SPANPORT")
 	url := "http://" + svc + ":" + port + "/ping"
 	resp, err := http.Get(url)
 	if err != nil {
