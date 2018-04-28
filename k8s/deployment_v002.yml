@@ -20,7 +20,7 @@ spec:
         - name: MY_TARGET_PING_SVC
           value: "demo-istio-pong"
         - name: MY_TARGET_PING_PORT
-          value: 9010
+          value: "80"
         imagePullPolicy: Always
         ports:
         - containerPort: 9010
