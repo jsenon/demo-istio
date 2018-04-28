@@ -27,7 +27,8 @@ jobs:
       - run: 
           name: Get dependencies
           command: |
-            go get -v -t -d ./...
+            go get -u github.com/golang/dep/cmd/dep
+            dep ensure
       - run: 
           name: Test
           command: |
@@ -37,7 +38,7 @@ jobs:
           command: |
             go get -u github.com/alecthomas/gometalinter
             gometalinter --install
-            gometalinter ./...
+            gometalinter ./... --exclude=vendor
       - run: 
           name: Code Coverage
           command: |

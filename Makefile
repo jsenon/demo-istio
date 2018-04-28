@@ -17,7 +17,8 @@ APP_VERSION := develop
 default: depend test lint build 
 
 depend: 
-	go get -v -t -d ./...
+ 	go get -u github.com/golang/dep/cmd/dep
+    dep ensure
 test:
 	go test -v ./...
 build_local:
@@ -27,7 +28,7 @@ build:
 	docker build $(DOCKER_BUILD_ARGS) -t $(DOCKER_USER)/demo-istio:$(APP_VERSION)  .
 lint:
 	go get -u github.com/alecthomas/gometalinter
-	gometalinter ./...
+	gometalinter ./... --exclude=vendor
 
 #-----------------------------------------------------------------------------
 # PUBLISH
