@@ -17,6 +17,8 @@ spec:
         env:
         - name: MY_VERSION
           value: "v.0.0.2"
+        - name: MY_JAEGER_AGENT
+          value: "jaeger-agent.istio-system:5775"
         imagePullPolicy: Always
         ports:
         - containerPort: 9010

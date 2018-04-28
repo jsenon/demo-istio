@@ -21,6 +21,8 @@ spec:
           value: "demo-istio-pong"
         - name: MY_TARGET_PING_PORT
           value: "80"
+        - name: MY_JAEGER_AGENT
+          value: "jaeger-agent.istio-system:5775"
         imagePullPolicy: Always
         ports:
         - containerPort: 9010

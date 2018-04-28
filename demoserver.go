@@ -52,34 +52,47 @@ func main() {
 	http.HandleFunc("/ping", api.Pong)
 
 	// Block used to propagate span
-	zipkinPropagator := zipkin.NewZipkinB3HTTPHeaderPropagator()
-	injector := jaeger.TracerOptions.Injector(opentracing.HTTPHeaders, zipkinPropagator)
-	extractor := jaeger.TracerOptions.Extractor(opentracing.HTTPHeaders, zipkinPropagator)
-	// Zipkin shares span ID between client and server spans; it must be enabled via the following option.
-	zipkinSharedRPCSpan := jaeger.TracerOptions.ZipkinSharedRPCSpan(true)
-	// sender, _ := jaeger.NewUDPTransport("jaeger-agent.istio-system:5775", 0)
 	myjaeger := os.Getenv("MY_JAEGER_AGENT")
-	sender, _ := jaeger.NewUDPTransport(myjaeger, 0)
-	tracer, closer := jaeger.NewTracer(
-		"mydemo",
-		jaeger.NewConstSampler(true),
-		jaeger.NewRemoteReporter(
-			sender,
-			jaeger.ReporterOptions.BufferFlushInterval(1*time.Second)),
-		injector,
-		extractor,
-		zipkinSharedRPCSpan,
-	)
-	defer closer.Close()
-
-	err = http.ListenAndServe(":9010", nethttp.Middleware(tracer, http.DefaultServeMux))
-	if err != nil {
-		logger.Error("mydemo",
-			zap.String("status", "ERROR"),
-			zap.Int("statusCode", 500),
-			zap.Duration("backoff", time.Second),
-			zap.Error(err),
+	// Check if Jaeger variable has been set
+	if myjaeger != "" {
+		zipkinPropagator := zipkin.NewZipkinB3HTTPHeaderPropagator()
+		injector := jaeger.TracerOptions.Injector(opentracing.HTTPHeaders, zipkinPropagator)
+		extractor := jaeger.TracerOptions.Extractor(opentracing.HTTPHeaders, zipkinPropagator)
+		// Zipkin shares span ID between client and server spans; it must be enabled via the following option.
+		zipkinSharedRPCSpan := jaeger.TracerOptions.ZipkinSharedRPCSpan(true)
+		// sender, _ := jaeger.NewUDPTransport("jaeger-agent.istio-system:5775", 0)
+		sender, _ := jaeger.NewUDPTransport(myjaeger, 0)
+		tracer, closer := jaeger.NewTracer(
+			"mydemo",
+			jaeger.NewConstSampler(true),
+			jaeger.NewRemoteReporter(
+				sender,
+				jaeger.ReporterOptions.BufferFlushInterval(1*time.Second)),
+			injector,
+			extractor,
+			zipkinSharedRPCSpan,
 		)
+		defer closer.Close()
+		err = http.ListenAndServe(":9010", nethttp.Middleware(tracer, http.DefaultServeMux))
+		if err != nil {
+			logger.Error("mydemo",
+				zap.String("status", "ERROR"),
+				zap.Int("statusCode", 500),
+				zap.Duration("backoff", time.Second),
+				zap.Error(err),
+			)
+		}
+	} else {
+		// If no Jaeger variable set we don't propagate header
+		err = http.ListenAndServe(":9010", nil)
+		if err != nil {
+			logger.Error("mydemo",
+				zap.String("status", "ERROR"),
+				zap.Int("statusCode", 500),
+				zap.Duration("backoff", time.Second),
+				zap.Error(err),
+			)
+		}
 	}
 
 }
