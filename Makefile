@@ -7,7 +7,7 @@ DOCKER_PASS ?=
 
 DOCKER_BUILD_ARGS := --build-arg HTTP_PROXY=$(http_proxy) --build-arg HTTPS_PROXY=$(https_proxy)
 
-APP_VERSION := develop
+APP_VERSION := develop-span
 
 #-----------------------------------------------------------------------------
 # BUILD
