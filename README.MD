@@ -5,6 +5,13 @@
  
 This is a Server in order to illustrate service mesh Istio
 
+### Func
+
+- Web Server with IP and Version 
+- API generate 200
+- API generate 503 randomly
+- API ping/pong
+
 ## Build
 
 Build docker container
@@ -15,15 +22,8 @@ make build
 ### Launch Container
 
 ```
-docker run -d -p 9010:9010 -e MY_VERSION=x.x.x jsenon/demo-istio:vX.X
+docker run -d -p 9010:9010 -e MY_VERSION="v.x.x.x" -e MY_TARGET_PING_SVC="xxx" -e MY_TARGET_PING_PORT="80" jsenon/demo-istio:vX.X
 ```
-
-### Func
-
-- Web Server with IP and Version 
-- API generate 200
-- API generate 503 randomly
-- API ping/pong
 
 ### Usage
 
@@ -44,17 +44,16 @@ curl -X GET 127.0.0.1:9010
 
 You can generate a ping/pong to another endpoint/server 
 
-Defined target server by env MY_TARGET_PING_SVC/MY_TARGET_PING_PORT
+Target server is set by env `MY_TARGET_PING_SVC`/`MY_TARGET_PING_PORT`
 ```
 curl -X POST 127.0.0.1:9010/play
 ```
-You can answer to a ping from another andpoint/server by a pong
 
 ### Env
 
 - `MY_VERSION` = Set Application version ie v.0.0.1
-- `MY_TARGET_PING_SVC` = IP of target service for ping ie. 127.0.0.1 or mysvc.mynamspace.svc.cluster.local
-- `MY_TARGET_PING_PORT` = Port of target service for ping ie. 9010
+- `MY_TARGET_PING_SVC` = IP of target service for ping ie. 127.0.0.1 or mysvc.mynamespace.svc.cluster.local
+- `MY_TARGET_PING_PORT` = Port of target service for ping ie. 80
 
 ### TIPS
 
