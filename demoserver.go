@@ -96,6 +96,8 @@ func main() {
 	s := mux.NewRouter()
 
 	s.HandleFunc("/playtrace", apitrace.Play).Methods("GET")
+	s.HandleFunc("/ping", api.Pong).Methods("GET")
+
 	err = http.ListenAndServe(":9020", nethttp.Middleware(tracer, http.DefaultServeMux)(s))
 	if err != nil {
 		logger.Error("mydemo",
@@ -105,5 +107,4 @@ func main() {
 			zap.Error(err),
 		)
 	}
-
 }
