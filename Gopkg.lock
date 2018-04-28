@@ -78,12 +78,6 @@
   revision = "eeedf312bc6c57391d84767a4cd413f02a917974"
   version = "v1.8.0"
 
-<<<<<<< HEAD
-[solve-meta]
-  analyzer-name = "dep"
-  analyzer-version = 1
-  inputs-digest = "1d17e5797341b18570c2670906efecd96920fe47470c4569ce1448022dfcfec1"
-=======
 [[projects]]
   branch = "master"
   name = "golang.org/x/net"
@@ -94,6 +88,5 @@
   analyzer-name = "dep"
   analyzer-version = 1
   inputs-digest = "8b254d4483ec3a7f22cf02ec094a7b81ebb8aadc9abefdc14858627b7158a6bd"
->>>>>>> feature-propagatespan
   solver-name = "gps-cdcl"
   solver-version = 1

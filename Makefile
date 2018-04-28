@@ -48,5 +48,3 @@ publish:
 
 clean:
 	rm -rf demo-istio
-
-
