@@ -53,7 +53,7 @@ You can answer to a ping from another andpoint/server by a pong
 ### Env
 
 - `MY_VERSION` = Set Application version ie v.0.0.1
-- `MY_TARGET_PING_SVC` = IP of target service for ping ie. 127.0.0.1
+- `MY_TARGET_PING_SVC` = IP of target service for ping ie. 127.0.0.1 or mysvc.mynamspace.svc.cluster.local
 - `MY_TARGET_PING_PORT` = Port of target service for ping ie. 9010
 
 ### TIPS

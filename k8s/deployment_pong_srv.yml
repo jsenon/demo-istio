@@ -1,26 +1,22 @@
 apiVersion: extensions/v1beta1 # for versions before 1.8.0 use apps/v1beta1
 kind: Deployment
 metadata:
-  name: demo-istio
+  name: demo-istio-pong
   namespace: default
 spec:
   replicas: 2
   template:
     metadata:
       labels:
-        app: demo-istio
-        version: v.0.0.1
+        app: demo-istio-pong
+        version: v.0.0.2
     spec:
       containers:
-      - name: demo-istio
+      - name: demo-istio-pong
         image: docker.io/jsenon/demo-istio:develop
         env:
         - name: MY_VERSION
-          value: "v.0.0.1"
-        - name: MY_TARGET_PING_SVC
-          value: "demo-istio-pong"
-        - name: MY_TARGET_PING_PORT
-          value: 9010
+          value: "v.0.0.2"
         imagePullPolicy: Always
         ports:
         - containerPort: 9010

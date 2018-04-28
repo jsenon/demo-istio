@@ -2,6 +2,7 @@ apiVersion: extensions/v1beta1 # for versions before 1.8.0 use apps/v1beta1
 kind: Deployment
 metadata:
   name: demo-istio-v2
+  namespace: default
 spec:
   replicas: 2
   template:
@@ -16,6 +17,10 @@ spec:
         env:
         - name: MY_VERSION
           value: "v.0.0.2"
+        - name: MY_TARGET_PING_SVC
+          value: "demo-istio-pong"
+        - name: MY_TARGET_PING_PORT
+          value: 9010
         imagePullPolicy: Always
         ports:
         - containerPort: 9010
