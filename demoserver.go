@@ -23,7 +23,12 @@ import (
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/jsenon/demo-istio/api"
+	"github.com/jsenon/demo-istio/apitrace"
 	"github.com/jsenon/demo-istio/web"
+	"github.com/opentracing-contrib/go-stdlib/nethttp"
+	opentracing "github.com/opentracing/opentracing-go"
+	jaeger "github.com/uber/jaeger-client-go"
+	"github.com/uber/jaeger-client-go/zipkin"
 	"go.uber.org/zap"
 )
 
@@ -65,4 +70,40 @@ func main() {
 			zap.Error(err),
 		)
 	}
+
+	// Block used to propagate span
+	// We use another port for demo purpose
+	zipkinPropagator := zipkin.NewZipkinB3HTTPHeaderPropagator()
+	injector := jaeger.TracerOptions.Injector(opentracing.HTTPHeaders, zipkinPropagator)
+	extractor := jaeger.TracerOptions.Extractor(opentracing.HTTPHeaders, zipkinPropagator)
+
+	// Zipkin shares span ID between client and server spans; it must be enabled via the following option.
+	zipkinSharedRPCSpan := jaeger.TracerOptions.ZipkinSharedRPCSpan(true)
+
+	sender, _ := jaeger.NewUDPTransport("jaeger-agent.istio-system:5775", 0)
+	tracer, closer := jaeger.NewTracer(
+		"mydemo",
+		jaeger.NewConstSampler(true),
+		jaeger.NewRemoteReporter(
+			sender,
+			jaeger.ReporterOptions.BufferFlushInterval(1*time.Second)),
+		injector,
+		extractor,
+		zipkinSharedRPCSpan,
+	)
+	defer closer.Close()
+
+	s := mux.NewRouter()
+
+	s.HandleFunc("/playtrace", apitrace.Play).Methods("GET")
+	err = http.ListenAndServe(":9020", nethttp.Middleware(tracer, http.DefaultServeMux)(s))
+	if err != nil {
+		logger.Error("mydemo",
+			zap.String("status", "ERROR"),
+			zap.Int("statusCode", 500),
+			zap.Duration("backoff", time.Second),
+			zap.Error(err),
+		)
+	}
+
 }
