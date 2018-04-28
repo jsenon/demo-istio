@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: demo-istio
-        image: docker.io/jsenon/demo-istio:develop
+        image: docker.io/jsenon/demo-istio:develop-span
         env:
         - name: MY_VERSION
           value: "v.0.0.2"
