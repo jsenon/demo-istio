@@ -37,7 +37,6 @@ lint:
 .PHONY: publish 
 
 publish: 
-	docker login -u $(DOCKER_USER) -p $(DOCKER_PASS)
 	docker push $(DOCKER_USER)/demo-istio:$(APP_VERSION)
 
 #-----------------------------------------------------------------------------
