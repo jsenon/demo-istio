@@ -50,7 +50,7 @@ jobs:
       - run:
           name: Build application Docker image
           command: |
-            docker build -t jsenon/demo-istio:develop .
+            docker build -t jsenon/demo-istio:latest .
       - run: 
           name: DockerHub Login
           command: |
@@ -58,4 +58,4 @@ jobs:
       - run:
           name: Push to registry
           command: |
-            docker push $DOCKER_USER/demo-istio:develop
+            docker push $DOCKER_USER/demo-istio:latest

@@ -13,10 +13,12 @@ spec:
     spec:
       containers:
       - name: demo-istio-pong
-        image: docker.io/jsenon/demo-istio:develop
+        image: docker.io/jsenon/demo-istio:develop-span
         env:
         - name: MY_VERSION
           value: "v.0.0.2"
+        - name: MY_JAEGER_AGENT
+          value: "jaeger-agent.istio-system:5775"
         imagePullPolicy: Always
         ports:
         - containerPort: 9010

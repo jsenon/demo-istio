@@ -18,12 +18,15 @@ package main
 
 import (
 	"net/http"
+	"os"
 	"time"
 
-	"github.com/gorilla/handlers"
-	"github.com/gorilla/mux"
 	"github.com/jsenon/demo-istio/api"
 	"github.com/jsenon/demo-istio/web"
+	"github.com/opentracing-contrib/go-stdlib/nethttp"
+	opentracing "github.com/opentracing/opentracing-go"
+	jaeger "github.com/uber/jaeger-client-go"
+	"github.com/uber/jaeger-client-go/zipkin"
 	"go.uber.org/zap"
 )
 
@@ -39,30 +42,57 @@ func main() {
 	}
 	defer logger.Sync() // nolint: errcheck
 
-	r := mux.NewRouter()
-
-	// Remove CORS Header check to allow swagger and application on same host and port
-	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type"})
-	// To be changed
-	originsOk := handlers.AllowedOrigins([]string{"*"})
-	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS", "PATCH"})
-
 	// Web Part
-	r.HandleFunc("/", web.Index)
+	http.HandleFunc("/", web.Index)
 
 	// API Part
-	r.HandleFunc("/healthz", api.Health).Methods("GET")
-	r.HandleFunc("/.well-known", api.Wellknown).Methods("GET")
-	r.HandleFunc("/play", api.Play).Methods("GET")
-	r.HandleFunc("/ping", api.Pong).Methods("GET")
+	http.HandleFunc("/healthz", api.Health)
+	http.HandleFunc("/.well-known", api.Wellknown)
+	http.HandleFunc("/play", api.Play)
+	http.HandleFunc("/ping", api.Pong)
 
-	err = http.ListenAndServe(":9010", handlers.CORS(originsOk, headersOk, methodsOk)(r))
-	if err != nil {
-		logger.Error("mydemo",
-			zap.String("status", "ERROR"),
-			zap.Int("statusCode", 500),
-			zap.Duration("backoff", time.Second),
-			zap.Error(err),
+	// Block used to propagate span
+	myjaeger := os.Getenv("MY_JAEGER_AGENT")
+	// Check if Jaeger variable has been set
+	if myjaeger != "" {
+		zipkinPropagator := zipkin.NewZipkinB3HTTPHeaderPropagator()
+		injector := jaeger.TracerOptions.Injector(opentracing.HTTPHeaders, zipkinPropagator)
+		extractor := jaeger.TracerOptions.Extractor(opentracing.HTTPHeaders, zipkinPropagator)
+		// Zipkin shares span ID between client and server spans; it must be enabled via the following option.
+		zipkinSharedRPCSpan := jaeger.TracerOptions.ZipkinSharedRPCSpan(true)
+		// sender, _ := jaeger.NewUDPTransport("jaeger-agent.istio-system:5775", 0)
+		sender, _ := jaeger.NewUDPTransport(myjaeger, 0)
+		tracer, closer := jaeger.NewTracer(
+			"mydemo",
+			jaeger.NewConstSampler(true),
+			jaeger.NewRemoteReporter(
+				sender,
+				jaeger.ReporterOptions.BufferFlushInterval(1*time.Second)),
+			injector,
+			extractor,
+			zipkinSharedRPCSpan,
 		)
+		defer closer.Close() // nolint: errcheck
+		err = http.ListenAndServe(":9010", nethttp.Middleware(tracer, http.DefaultServeMux))
+		if err != nil {
+			logger.Error("mydemo",
+				zap.String("status", "ERROR"),
+				zap.Int("statusCode", 500),
+				zap.Duration("backoff", time.Second),
+				zap.Error(err),
+			)
+		}
+	} else {
+		// If no Jaeger variable set we don't propagate header
+		err = http.ListenAndServe(":9010", nil)
+		if err != nil {
+			logger.Error("mydemo",
+				zap.String("status", "ERROR"),
+				zap.Int("statusCode", 500),
+				zap.Duration("backoff", time.Second),
+				zap.Error(err),
+			)
+		}
 	}
+
 }

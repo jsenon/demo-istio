@@ -7,7 +7,7 @@ DOCKER_PASS ?=
 
 DOCKER_BUILD_ARGS := --build-arg HTTP_PROXY=$(http_proxy) --build-arg HTTPS_PROXY=$(https_proxy)
 
-APP_VERSION := develop
+APP_VERSION := latest
 
 #-----------------------------------------------------------------------------
 # BUILD
@@ -19,6 +19,7 @@ default: depend test lint build
 depend: 
  	go get -u github.com/golang/dep/cmd/dep
     dep ensure
+
 test:
 	go test -v ./...
 build_local:

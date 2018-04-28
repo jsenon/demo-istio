@@ -88,7 +88,7 @@ func Health(w http.ResponseWriter, req *http.Request) {
 				zap.Error(err),
 			)
 		}
-		logger.Info("mydemo",
+		logger.Info("Success send Healthz",
 			zap.String("status", "INFO"),
 			zap.Int("statusCode", 200),
 			zap.Duration("backoff", time.Second),
@@ -148,7 +148,35 @@ func Play(w http.ResponseWriter, req *http.Request) {
 	svc := os.Getenv("MY_TARGET_PING_SVC")
 	port := os.Getenv("MY_TARGET_PING_PORT")
 	url := "http://" + svc + ":" + port + "/ping"
-	resp, err := http.Get(url)
+	client := &http.Client{}
+	post, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		logger.Error("mydemo",
+			zap.String("status", "ERROR"),
+			zap.Int("statusCode", 500),
+			zap.Duration("backoff", time.Second),
+			zap.Error(err),
+		)
+	}
+	for header, values := range req.Header {
+		for _, value := range values {
+			post.Header.Set(header, value)
+			logger.Info("Send Header: "+header+" "+value,
+				zap.String("status", "INFO"),
+				zap.Duration("backoff", time.Second),
+			)
+		}
+	}
+	resp, err := client.Do(post)
+	if err != nil {
+		logger.Error("mydemo",
+			zap.String("status", "ERROR"),
+			zap.Int("statusCode", 500),
+			zap.Duration("backoff", time.Second),
+			zap.Error(err),
+		)
+	}
+	defer resp.Body.Close() // nolint: errcheck
 	if err != nil {
 		logger.Error("mydemo",
 			zap.String("status", "ERROR"),
@@ -177,7 +205,7 @@ func Play(w http.ResponseWriter, req *http.Request) {
 			zap.Error(err),
 		)
 	}
-	logger.Info("mydemo",
+	logger.Info("Success send ping",
 		zap.String("status", "INFO"),
 		zap.Int("statusCode", 200),
 		zap.Duration("backoff", time.Second),
@@ -196,6 +224,15 @@ func Pong(w http.ResponseWriter, req *http.Request) {
 		)
 	}
 	defer logger.Sync() // nolint: errcheck
+	for header, values := range req.Header {
+		for _, value := range values {
+			req.Header.Get(header)
+			logger.Info("Received Header: "+header+" "+value,
+				zap.String("status", "INFO"),
+				zap.Duration("backoff", time.Second),
+			)
+		}
+	}
 	w.WriteHeader(http.StatusOK)
 	_, err = w.Write([]byte("200 - Pong"))
 	if err != nil {
@@ -206,7 +243,7 @@ func Pong(w http.ResponseWriter, req *http.Request) {
 			zap.Error(err),
 		)
 	}
-	logger.Info("mydemo",
+	logger.Info("Success reply",
 		zap.String("status", "INFO"),
 		zap.Int("statusCode", 200),
 		zap.Duration("backoff", time.Second),
