@@ -71,7 +71,7 @@ func Index(res http.ResponseWriter, req *http.Request) {
 func externalIP() (string, error) { // nolint: gocyclo
 	logger, err := zap.NewProduction()
 	if err != nil {
-		logger.Error("mydemo",
+		logger.Error("Failed to create zap logger",
 			zap.String("status", "ERROR"),
 			zap.Int("statusCode", 500),
 			zap.Duration("backoff", time.Second),
@@ -83,7 +83,7 @@ func externalIP() (string, error) { // nolint: gocyclo
 	defer logger.Sync() // nolint: errcheck
 	ifaces, err := net.Interfaces()
 	if err != nil {
-		logger.Error("mydemo",
+		logger.Error("Failed to retrieve interface",
 			zap.String("status", "ERROR"),
 			zap.Int("statusCode", 500),
 			zap.Duration("backoff", time.Second),
@@ -100,7 +100,7 @@ func externalIP() (string, error) { // nolint: gocyclo
 		}
 		addrs, err := iface.Addrs()
 		if err != nil {
-			logger.Error("mydemo",
+			logger.Error("Failed to retrieve address",
 				zap.String("status", "ERROR"),
 				zap.Int("statusCode", 500),
 				zap.Duration("backoff", time.Second),

@@ -55,6 +55,7 @@ curl -X POST 127.0.0.1:9010/play
 - `MY_TARGET_PING_SVC` = IP of target service for ping ie. 127.0.0.1 or mysvc.mynamespace.svc.cluster.local
 - `MY_TARGET_PING_PORT` = Port of target service for ping ie. 80
 - `MY_JAEGER_AGENT` = Agent Jaeger ie. jaeger-agent.istio-system:5775, do not set if not needed
+- `MY_SVC_SPAN_NAME` = Set Service span name
 
 ### TIPS
 
