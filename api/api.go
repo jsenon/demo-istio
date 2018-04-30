@@ -78,22 +78,90 @@ func Health(w http.ResponseWriter, req *http.Request) {
 			)
 		}
 	} else {
-		w.WriteHeader(http.StatusOK)
-		_, err := w.Write([]byte("200 - Chewie, we’re home"))
-		if err != nil {
-			logger.Error("Failed to write output",
+		customcode := os.Getenv("MY_ANSWER_CODE")
+		fmt.Println("ANSWERCODE: ", customcode)
+		switch customcode {
+		case "503":
+			w.WriteHeader(http.StatusServiceUnavailable)
+			_, err := w.Write([]byte("503 - Now, young Skywalker, you will die"))
+			if err != nil {
+				logger.Error("Failed to write output",
+					zap.String("status", "ERROR"),
+					zap.Int("statusCode", 500),
+					zap.Duration("backoff", time.Second),
+					zap.Error(err),
+				)
+			}
+			logger.Error("Failed this is a simulation Normal error",
+				zap.String("status", "ERROR"),
+				zap.Int("statusCode", 503),
+				zap.Duration("backoff", time.Second),
+			)
+		case "500":
+			w.WriteHeader(http.StatusInternalServerError)
+			_, err := w.Write([]byte("500 - Now, young Skywalker, you will die"))
+			if err != nil {
+				logger.Error("Failed to write output",
+					zap.String("status", "ERROR"),
+					zap.Int("statusCode", 500),
+					zap.Duration("backoff", time.Second),
+					zap.Error(err),
+				)
+			}
+			logger.Error("Failed this is a simulation Normal error",
 				zap.String("status", "ERROR"),
 				zap.Int("statusCode", 500),
 				zap.Duration("backoff", time.Second),
-				zap.Error(err),
+			)
+		case "501":
+			w.WriteHeader(http.StatusNotImplemented)
+			_, err := w.Write([]byte("501 - Now, young Skywalker, you will die"))
+			if err != nil {
+				logger.Error("Failed to write output",
+					zap.String("status", "ERROR"),
+					zap.Int("statusCode", 500),
+					zap.Duration("backoff", time.Second),
+					zap.Error(err),
+				)
+			}
+			logger.Error("Failed this is a simulation Normal error",
+				zap.String("status", "ERROR"),
+				zap.Int("statusCode", 501),
+				zap.Duration("backoff", time.Second),
+			)
+		case "200":
+			w.WriteHeader(http.StatusOK)
+			_, err := w.Write([]byte("200 - Chewie, we’re home"))
+			if err != nil {
+				logger.Error("Failed to write output",
+					zap.String("status", "ERROR"),
+					zap.Int("statusCode", 500),
+					zap.Duration("backoff", time.Second),
+					zap.Error(err),
+				)
+			}
+			logger.Info("Success send Healthz",
+				zap.String("status", "INFO"),
+				zap.Int("statusCode", 200),
+				zap.Duration("backoff", time.Second),
+			)
+		default:
+			w.WriteHeader(http.StatusOK)
+			_, err := w.Write([]byte("200 - Chewie, we’re home"))
+			if err != nil {
+				logger.Error("Failed to write output",
+					zap.String("status", "ERROR"),
+					zap.Int("statusCode", 500),
+					zap.Duration("backoff", time.Second),
+					zap.Error(err),
+				)
+			}
+			logger.Info("Success send Healthz",
+				zap.String("status", "INFO"),
+				zap.Int("statusCode", 200),
+				zap.Duration("backoff", time.Second),
 			)
 		}
-		logger.Info("Success send Healthz",
-			zap.String("status", "INFO"),
-			zap.Int("statusCode", 200),
-			zap.Duration("backoff", time.Second),
-		)
-
 	}
 }
 

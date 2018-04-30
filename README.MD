@@ -27,7 +27,7 @@ docker run -d -p 9010:9010 -e MY_VERSION="v.x.x.x" -e MY_TARGET_PING_SVC="xxx" -
 
 ### Usage
 
-Generate 200
+Generate Health, answer could be 200 or 5xx if `MY_ANSWER_CODE` is set
 ```
 curl -X GET 127.0.0.1:9010/healthz
 ```
@@ -56,6 +56,7 @@ curl -X POST 127.0.0.1:9010/play
 - `MY_TARGET_PING_PORT` = Port of target service for ping ie. 80
 - `MY_JAEGER_AGENT` = Agent Jaeger ie. jaeger-agent.istio-system:5775, do not set if not needed
 - `MY_SVC_SPAN_NAME` = Set Service span name
+- `MY_ANSWER_CODE` = If set, defined custom answer code ie. 503 (only 500,501 and 503 are supported for now)
 
 ### TIPS
 

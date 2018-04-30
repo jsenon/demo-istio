@@ -12,6 +12,8 @@ ENV MY_TARGET_PING_PORT=9010
 ENV MY_JAEGER_AGENT=""
 ENV MY_SVC_SPAN_NAME="demo-istio"
 
+ENV MY_ANSWER_CODE=""
+
 ADD demo-istio /
 USER www-user
 CMD ["./demo-istio"]
