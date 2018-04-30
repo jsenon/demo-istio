@@ -25,6 +25,8 @@ spec:
           value: "jaeger-agent.istio-system:5775"
         - name: MY_SVC_SPAN_NAME
           value: "demo-istio-v2"
+        - name: "MY_ANSWER_CODE"
+          value: "503"
         imagePullPolicy: Always
         ports:
         - containerPort: 9010
