@@ -10,6 +10,7 @@ This is a Server in order to illustrate service mesh Istio
 - Web Server with IP and Version 
 - API generate 200
 - API generate 503 randomly
+- API generate custom answer code
 - API ping/pong
 
 ## Build
@@ -56,7 +57,7 @@ curl -X POST 127.0.0.1:9010/play
 - `MY_TARGET_PING_PORT` = Port of target service for ping ie. 80
 - `MY_JAEGER_AGENT` = Agent Jaeger ie. jaeger-agent.istio-system:5775, do not set if not needed
 - `MY_SVC_SPAN_NAME` = Set Service span name
-- `MY_ANSWER_CODE` = If set, defined custom answer code ie. 503 (only 500,501 and 503 are supported for now)
+- `MY_ANSWER_CODE` = If set, define custom answer code ie. 503 (only 500, 501 and 503 are supported for now)
 
 ### TIPS
 
