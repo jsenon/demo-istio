@@ -36,7 +36,7 @@ type statusjson struct {
 }
 
 // Health func that send 200
-func Health(w http.ResponseWriter, req *http.Request) {
+func Health(w http.ResponseWriter, req *http.Request) { // nolint: gocyclo
 	logger, err := zap.NewProduction()
 	if err != nil {
 		logger.Error("Failed to create zap logger",
