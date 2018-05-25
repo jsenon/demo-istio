@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: demo-istio
+spec:
+  hosts:
+    - "*"
+  gateways:
+  - demo-istio-gateway # <---- bind to gateway
+  http:
+  - match:
+    - uri:
+        prefix: /503
+    route:
+    - destination:
+        host: demo-istio-503
+  - route:
+    - destination:
+        host: demo-istio

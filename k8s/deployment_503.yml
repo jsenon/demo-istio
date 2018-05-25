@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1 # for versions before 1.8.0 use apps/v1beta1
+kind: Deployment
+metadata:
+  name: demo-istio-503
+  namespace: default
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: demo-istio-503
+        version: v.0.0.1
+    spec:
+      containers:
+      - name: demo-istio
+        image: docker.io/jsenon/demo-istio:latest
+        env:
+        - name: MY_VERSION
+          value: "v.0.0.1"
+        - name: MY_JAEGER_AGENT
+          value: "jaeger-agent.istio-system:5775"
+        - name: MY_SVC_SPAN_NAME
+          value: "demo-istio-503"
+        - name: "MY_ANSWER_CODE"
+          value: "503"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9010
