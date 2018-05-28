@@ -35,6 +35,3 @@ spec:
     - destination:
         host: demo-istio-200-stdspan
       weight: 100
-  - route:
-    - destination:
-        host: demo-istio

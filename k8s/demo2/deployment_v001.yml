@@ -1,10 +1,14 @@
-apiVersion: extensions/v1beta1 # for versions before 1.8.0 use apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: demo-istio
   namespace: default
 spec:
   replicas: 2
+  selector:
+    matchLabels:
+      app: demo-istio
+      version: v.0.0.1
   template:
     metadata:
       labels:
@@ -13,16 +17,20 @@ spec:
     spec:
       containers:
       - name: demo-istio
-        image: docker.io/jsenon/demo-istio:develop
+        image: docker.io/jsenon/demo-istio:v.0.0.1
         env:
-        - name: MY_VERSION
-          value: "v.0.0.1"
+        # - name: MY_VERSION
+        #   value: "v.0.0.1"
         - name: MY_TARGET_PING_SVC
           value: "demo-istio-pong"
         - name: MY_TARGET_PING_PORT
           value: "80"
+        - name: MY_JAEGER_AGENT
+          value: "jaeger-agent.istio-system:5775"
+        - name: MY_SVC_SPAN_NAME
+          value: "demo-istio"
         - name: "MY_ANSWER_CODE"
-          value: "503"
+          value: "200"
         imagePullPolicy: Always
         ports:
         - containerPort: 9010
