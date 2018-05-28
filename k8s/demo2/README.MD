@@ -23,4 +23,3 @@ Remove Previous VirtualService
 ```sh
 istioctl delete -f virtualservice.yml
 ```
-

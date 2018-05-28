@@ -5,12 +5,28 @@
 ### Aim
 
 - Demonstrate tooling added by a service mesh
+- Demonstrate sidecar automatic injection
 
 ### Deployment
 
-
-
 ### Usage
+
+Observe automnatic sidecar injection
+
+```sh
+kubectl get pods
+```
+
+Inside PODS
+
+```sh
+kubectl exec -it demo-istio-200-6cb68774c8-bs67w -c istio-proxy bash
+$ ps -e
+```
+
+```sh
+kubectl describe pods demo-istio-200-6cb68774c8-bs67w
+```
 
 Generate 200
 
