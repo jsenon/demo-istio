@@ -10,10 +10,31 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /503
+        prefix: "/503/"
+    rewrite:
+      uri: "/"
     route:
     - destination:
-        host: demo-istio-503
+        host: demo-istio-503    
+      weight: 100
+  - match: 
+    - uri:
+        prefix: "/200/"
+    rewrite:
+      uri: "/"
+    route:
+    - destination:
+        host: demo-istio-200 
+      weight: 100
+  - match: 
+    - uri:
+        prefix: "/stdspan/"
+    rewrite:
+      uri: "/"
+    route:
+    - destination:
+        host: demo-istio-200-stdspan
+      weight: 100
   - route:
     - destination:
         host: demo-istio

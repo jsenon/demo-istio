@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-istio-200-stdspan
+  namespace: default
+  labels:
+    app: demo-istio-200-stdspan
+spec:
+  selector:
+    app: demo-istio-200-stdspan
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 9010

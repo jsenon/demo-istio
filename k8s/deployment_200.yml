@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: demo-istio-503
+  name: demo-istio-200
   namespace: default
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: demo-istio-503
+      app: demo-istio-200
       version: v.0.0.1
   template:
     metadata:
       labels:
-        app: demo-istio-503
+        app: demo-istio-200
         version: v.0.0.1
     spec:
       containers:
@@ -24,9 +24,9 @@ spec:
         - name: MY_JAEGER_AGENT
           value: "jaeger-agent.istio-system:5775"
         - name: MY_SVC_SPAN_NAME
-          value: "demo-istio-503"
+          value: "demo-istio-200"
         - name: "MY_ANSWER_CODE"
-          value: "503"
+          value: "200"
         imagePullPolicy: Always
         ports:
         - containerPort: 9010
