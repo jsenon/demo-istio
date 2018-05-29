@@ -44,7 +44,7 @@ fortio load -H "X-Custom-Error: true" -c 1 -qps 0 -n 6 -loglevel Warning http://
 
 You should see a number of ejection active, if not regenerate 5xx errors:
 
-```
+```sh
 curl --silent 127.0.0.1:15000/stats | grep "cluster.outbound|80||demo-istio-v2.default.svc.cluster.local.outlier_detection.ejections_active"
 ```
 
