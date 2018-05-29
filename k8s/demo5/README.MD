@@ -20,3 +20,5 @@ Remove Previous VirtualService:
 ```sh
 istioctl delete -f virtualservice-delay.yml
 ```
+
+- Demo Dark Traffic
