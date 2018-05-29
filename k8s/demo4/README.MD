@@ -7,7 +7,6 @@
 - Demonstrate delay with cutom header
 - Demonstrate circuit breaking with service mesh
 
-
 ### Deployment
 
 ### Usage
@@ -48,7 +47,7 @@ You should see a number of ejection active, if not regenerate 5xx errors:
 curl --silent 127.0.0.1:15000/stats | grep "cluster.outbound|80||demo-istio-v2.default.svc.cluster.local.outlier_detection.ejections_active"
 ```
 
-Check logs on pod that have generate 5xx error to confirm that traffic is not sent to it 
+Check logs on pod that have generate 5xx error to confirm that traffic is not sent to it.
 
 ### Notes
 
