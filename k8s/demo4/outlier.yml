@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: demo-istio-v2
+spec:
+  host: demo-istio-v2.default.svc.cluster.local
+  trafficPolicy:
+    connectionPool:
+      http:
+        http1MaxPendingRequests: 1
+        maxRequestsPerConnection: 1
+      tcp:
+        maxConnections: 100
+    outlierDetection:
+      http:
+        baseEjectionTime: 30.000s
+        consecutiveErrors: 1
+        interval: 1.000s
+        maxEjectionPercent: 100
