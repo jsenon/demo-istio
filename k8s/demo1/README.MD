@@ -94,10 +94,10 @@ Observe Grafana metrics, in your browser `http://127.0.0.1:3000` by using port-f
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
 ```
 
-Observe Opentracing:
+Observe Opentracing, in your browser `http://127.0.0.1:16686` by using port-forward:
 
 ```sh
-
+kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
 ```
 
 Observer Service Graph, in your browser `http://127.0.0.1:8088/force/forcegraph.html` by using port-forward:
