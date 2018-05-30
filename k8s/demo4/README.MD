@@ -9,6 +9,24 @@
 
 ### Deployment
 
+Remove Previous VirtualService:
+
+```sh
+istioctl delete -f demo3/virtualservice-canary.yml
+```
+
+Deploy virtual service:
+
+```sh
+istioctl create -f demo4/virtualservice-delay.yml
+```
+
+Deploy outlier:
+
+```sh
+istioctl create -f demo4/outlier.yml
+```
+
 ### Usage
 
 Delay with custom header:
@@ -50,11 +68,5 @@ watch -n1 'curl --silent 127.0.0.1:15000/stats | grep "cluster.outbound|80||demo
 Check logs on pod that have generate 5xx error to confirm that traffic is not sent to it.
 
 ### Notes
-
-Remove Previous VirtualService:
-
-```sh
-istioctl delete -f virtualservice-canary.yml
-```
 
 ### Todo

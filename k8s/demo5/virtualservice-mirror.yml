@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: demo-istio-miror
+spec:
+  hosts:
+    - "*"
+  gateways:
+  - demo-istio-gateway # <---- bind to gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/mirror/"
+    rewrite:
+      uri: "/"
+    route:
+    - destination:
+        host: demo-istio
+      weight: 100
+    mirror:
+      host: demo-istio-v2

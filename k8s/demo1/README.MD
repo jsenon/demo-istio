@@ -9,6 +9,48 @@
 
 ### Deployment
 
+Deploy service 200:
+
+```sh
+kubectl apply -f demo1/service_200.yml
+```
+
+Deploy application 200:
+
+```sh
+kubectl apply -f demo1/deployment_200.yml
+```
+
+Deploy service 503:
+
+```sh
+kubectl apply -f demo1/service_503.yml
+```
+
+Deploy application 503:
+
+```sh
+kubectl apply -f demo1/deployment_503.yml
+```
+
+Deploy service 200 w/o span:
+
+```sh
+kubectl apply -f demo1/service_200_stdspan.yml
+```
+
+Deploy application 200 w/o span:
+
+```sh
+kubectl apply -f demo1/deployment_200_stdspan.yml
+```
+
+Deploy virtual service:
+
+```sh
+istioctl create -f demo1/virtualservice.yml
+```
+
 ### Usage
 
 Observe automnatic sidecar injection
