@@ -180,8 +180,6 @@ istioctl delete -f demo6/denier.yml
 
 ### Notes
 
-### Todo
-
-Rate limit ?
-
 Issue [open](https://github.com/istio/istio/issues/5909) regarding force destination to *.mtls to be enforce with MUTUAL
+
+### Todo

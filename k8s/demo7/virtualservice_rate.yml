@@ -1,0 +1,28 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: demo-istio-rate
+spec:
+  hosts:
+    - "*"
+  gateways:
+  - demo-istio-gateway # <---- bind to gateway
+  http:
+  - match: 
+    - uri:
+        prefix: "/rate/"
+    rewrite:
+      uri: "/"
+    route:
+    - destination:
+        host: demo-istio-v2
+      weight: 100
+  - match: 
+    - uri:
+        prefix: "/norate/"
+    rewrite:
+      uri: "/"
+    route:
+    - destination:
+        host: demo-istio
+      weight: 100

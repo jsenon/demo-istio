@@ -21,6 +21,8 @@ You will find in this repository some demo regarding istio functionalities:
 - [Demo 6:](demo6/README.MD)
   - Demonstrate mTLS
   - Demonstrate SecurityPolicy
+- [Demo 7:](demo7/README.MD)
+  - Demonstrate rate limit
 
 ### Notes
 
