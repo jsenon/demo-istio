@@ -27,12 +27,6 @@ kubectl apply -f demo3/service_v2.yml
 kubectl apply -f demo3/deployment_v002.yml
 ```
 
-Apply new virtual service:
-
-```sh
-
-```
-
 ### Usage
 
 Generate 200 with different service version
