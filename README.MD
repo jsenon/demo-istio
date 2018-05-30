@@ -13,6 +13,10 @@ This is a Server in order to illustrate service mesh Istio
 - API generate custom answer code
 - API ping/pong
 
+## Demo 
+
+Functionalities demo are available in [dedicated section](k8s/README.MD)
+
 ### Build
 
 Build docker container:

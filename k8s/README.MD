@@ -1,0 +1,27 @@
+# Service Mesh
+
+## Main
+
+### Aim
+
+You will find in this repository some demo regarding istio functionalities:
+
+- [Demo 1:](demo1/README.MD)
+  - Demonstrate tooling added by a service mesh
+  - Demonstrate sidecar automatic injection
+- [Demo 2:](demo2/README.MD)
+  - Demonstrate microservice chaining with service mesh
+- [Demo 3:](demo3/README.MD)
+  - Demonstrate canary implementation with service mesh
+- [Demo 4:](demo4/README.MD)
+  - Demonstrate delay with cutom header
+  - Demonstrate circuit breaking with service mesh
+- [Demo 5:](demo5/README.MD)
+  - Demo Dark Traffic in order to test new applications release with real datas
+- [Demo 6:](demo6/README.MD)
+  - Demonstrate mTLS
+  - Demonstrate SecurityPolicy
+
+### Notes
+
+### Todo
