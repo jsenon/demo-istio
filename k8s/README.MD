@@ -17,7 +17,7 @@ You will find in this repository some demo regarding istio functionalities:
   - Demonstrate delay with cutom header
   - Demonstrate circuit breaking with service mesh
 - [Demo 5:](demo5/README.MD)
-  - Demo Dark Traffic in order to test new applications release with real datas
+  - Demonstrate Dark Traffic in order to test new applications release with real datas
 - [Demo 6:](demo6/README.MD)
   - Demonstrate mTLS
   - Demonstrate SecurityPolicy
