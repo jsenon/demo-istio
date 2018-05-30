@@ -59,6 +59,12 @@ Outlier with 5xx error:
 fortio load -H "X-Custom-Error: true" -c 1 -qps 0 -n 6 -loglevel Warning http://ac75b5b82626.eu-central-1.elb.amazonaws.com/outlier/healthz
 ```
 
+Observer envoy admin page for istio-ingressgateway:
+
+```sh
+kubectl port-forward -n istio-system istio-ingressgateway-54cd9976f-r9c8p 15000:15000
+```
+
 You should see a number of ejection active, if not regenerate 5xx errors:
 
 ```sh
