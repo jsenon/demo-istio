@@ -29,3 +29,5 @@ You will find in this repository some demo regarding istio functionalities:
 Most of informations regarding Istio [v1aplha3](https://preliminary.istio.io/docs/reference/config/istio.networking.v1alpha3/#title) could be read on dedicated Istio part.
 
 ### Todo
+
+- JWT implementation
