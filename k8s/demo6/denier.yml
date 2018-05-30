@@ -1,0 +1,24 @@
+apiVersion: "config.istio.io/v1alpha2"
+kind: denier
+metadata:
+  name: denypong
+spec:
+  status:
+    code: 7
+    message: Not allowed
+---
+apiVersion: "config.istio.io/v1alpha2"
+kind: checknothing
+metadata:
+  name: denypong
+spec:
+---
+apiVersion: "config.istio.io/v1alpha2"
+kind: rule
+metadata:
+  name: denypong
+spec:
+  match: destination.labels["app"] == "demo-istio-pong" && source.labels["app"]=="demo-istio"
+  actions:
+  - handler: denypong.denier
+    instances: [ denypong.checknothing ]

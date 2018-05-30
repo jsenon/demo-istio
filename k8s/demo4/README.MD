@@ -69,4 +69,7 @@ Check logs on pod that have generate 5xx error to confirm that traffic is not se
 
 ### Notes
 
+If Further information is needed [Outlier explanation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/outlier.html)could be read on Envoy website.
+[Outlier detection statistics](https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cluster_stats#outlier-detection-statistics) is also available on Envoy site.
+
 ### Todo

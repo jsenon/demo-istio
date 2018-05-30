@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: demo-istio-v2
-  namespace: default
+  namespace: mtls
 spec:
   replicas: 2
   selector:
