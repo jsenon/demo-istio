@@ -87,3 +87,21 @@ Generate 200 w/o span
 ```sh
 curl http://ac75b5b1.eu-central-1.elb.amazonaws.com/stdspan/healthz -vv
 ```
+
+Observe Grafana metrics, in your browser `http://127.0.0.1:3000` by using port-forward:
+
+```sh
+kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
+```
+
+Observe Opentracing:
+
+```sh
+
+```
+
+Observer Service Graph, in your browser `http://127.0.0.1:8088/force/forcegraph.html` by using port-forward:
+
+```sh
+kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
+```
