@@ -17,7 +17,7 @@ istioctl delete virtualservice xxx
 Delete any destination rule:
 
 ```sh
-istioctl delete DestinationRule
+istioctl delete DestinationRule xxx
 ```
 
 Create virtual service:
@@ -49,5 +49,7 @@ curl http://ac75.eu-central-1.elb.amazonaws.com/rate/ -v
 ### Notes
 
 ## Draft - Not working
+
+Check relevant [issue](https://github.com/istio/istio/issues/5692) to check evolution.
 
 ### Todo
