@@ -38,3 +38,14 @@ spec:
     - destination:
         host: demo-istio-v2
       weight: 100
+  - match:
+    - uri:
+         prefix: "/error/"
+    route:
+    - destination:
+        host: demo-istio
+      weight: 100
+    fault:
+      abort:
+        percent: 100
+        httpStatus: 400
