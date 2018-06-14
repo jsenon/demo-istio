@@ -27,24 +27,31 @@ Deploy outlier:
 istioctl create -f demo4/outlier.yml
 ```
 
+Be sure to have deployed v002:
+
+```sh
+kubectl apply -f demo3/service_v2.yml
+kubectl apply -f demo3/deployment_v002.yml
+```
+
 ### Usage
 
 Delay with custom header:
 
 ```sh
-curl http://ac75b5b82626.eu-central-1.elb.amazonaws.com/delay/ -vv --cookie "user=julien" -H "uri: /delay/"
+curl http://ac75b5b82626711e88b40021b5368acb-1318031881.eu-central-1.elb.amazonaws.com/delay/ -vv --cookie "user=julien" -H "uri: /delay/"
 ```
 
 One concurent connection:
 
 ```sh
-fortio load -c 1 -qps 0 -n 20 -loglevel Warning http://ac75b5b81318031881.eu-central-1.elb.amazonaws.com/outlier/healthz
+fortio load -c 1 -qps 0 -n 20 -loglevel Warning http://ac75b5b82626711e88b40021b5368acb-1318031881.eu-central-1.elb.amazonaws.com/outlier/healthz
 ```
 
 Two concurent connection with circuit breakerm you should see some 5xx errors:
 
 ```sh
-fortio load -c 2 -qps 0 -n 20 -loglevel Warning http://ac75b5b82-1318031881.eu-central-1.elb.amazonaws.com/outlier/healthz
+fortio load -c 2 -qps 0 -n 20 -loglevel Warning http://ac75b5b82626711e88b40021b5368acb-1318031881.eu-central-1.elb.amazonaws.com/outlier/healthz
 ```
 
 Scale deployment demo-istio-v2:
@@ -56,7 +63,7 @@ kubectl scale deployment demo-istio-v2 --replicas=6
 Outlier with 5xx error:
 
 ```sh
-fortio load -H "X-Custom-Error: true" -c 1 -qps 0 -n 6 -loglevel Warning http://ac75b5b82626.eu-central-1.elb.amazonaws.com/outlier/healthz
+fortio load -H "X-Custom-Error: true" -c 1 -qps 0 -n 6 -loglevel Warning http://ac75b5b82626711e88b40021b5368acb-1318031881.eu-central-1.elb.amazonaws.com/outlier/healthz
 ```
 
 Observer envoy admin page for istio-ingressgateway:

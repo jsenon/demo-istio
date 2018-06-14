@@ -73,19 +73,19 @@ kubectl describe pods demo-istio-200-6cb68774c8-bs67w
 Generate 200
 
 ```sh
-curl http://ac75b5b1.eu-central-1.elb.amazonaws.com/200/healthz -vv
+curl http://ac75b5b82626711e88b40021b5368acb-1318031881.eu-central-1.elb.amazonaws.com/200/healthz -vv
 ```
 
 Generate 503
 
 ```sh
-curl http://ac75b5b1.eu-central-1.elb.amazonaws.com/503/healthz -vv
+curl http://ac75b5b82626711e88b40021b5368acb-1318031881.eu-central-1.elb.amazonaws.com/503/healthz -vv
 ```
 
 Generate 200 w/o span
 
 ```sh
-curl http://ac75b5b1.eu-central-1.elb.amazonaws.com/stdspan/healthz -vv
+curl http://ac75b5b82626711e88b40021b5368acb-1318031881.eu-central-1.elb.amazonaws.com/stdspan/healthz -vv
 ```
 
 Observe Grafana metrics, in your browser `http://127.0.0.1:3000` by using port-forward:
@@ -100,8 +100,14 @@ Observe Opentracing, in your browser `http://127.0.0.1:16686` by using port-forw
 kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
 ```
 
-Observer Service Graph, in your browser `http://127.0.0.1:8088/force/forcegraph.html` by using port-forward:
+Observe Service Graph, in your browser `http://127.0.0.1:8088/force/forcegraph.html` by using port-forward:
 
 ```sh
-kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') 8088:8088 &
+kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=vistio-web -o jsonpath='{.items[0].metadata.name}') 8080:8080 &
+```
+
+Generate flow:
+
+```sh
+while true; do curl -s -o /dev/null  http://ac75b5b82626711e88b40021b5368acb-1318031881.eu-central-1.elb.amazonaws.com/200/healthz; done
 ```
