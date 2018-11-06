@@ -137,7 +137,7 @@ istioctl create -f demo2/virtualservice-play.yml
 Check if ping/pong works fine:
 
 ```sh
-curl http://ac75b5b82626711e88b40021b5368acb-1318031881.eu-central-1.elb.amazonaws.com/play -vv
+curl http://ac75b5b826b-1318031881.eu-central-1.elb.amazonaws.com/play -vv
 ...
 < HTTP/1.1 200 OK
 < date: Wed, 30 May 2018 11:43:41 GMT
@@ -146,7 +146,7 @@ curl http://ac75b5b82626711e88b40021b5368acb-1318031881.eu-central-1.elb.amazona
 < x-envoy-upstream-service-time: 11
 < server: envoy
 <
-* Connection #0 to host ac75-1318031881.eu-central-1.elb.amazonaws.com left intact
+* Connection #0 to host ac75-131881.eu-central-1.elb.amazonaws.com left intact
 200 - Pong%
 ```
 
@@ -159,7 +159,7 @@ istioctl create -f demo6/denier.yml
 Check  ping/pong result:
 
 ```sh
-curl http://ac75b5b82626711e88b40021b5368acb-1318031881.eu-central-1.elb.amazonaws.com/play -vv
+curl http://ac78b40021b5368acb-1318031881.eu-central-1.elb.amazonaws.com/play -vv
 ...
 < HTTP/1.1 200 OK
 < date: Wed, 30 May 2018 11:48:10 GMT
@@ -168,7 +168,7 @@ curl http://ac75b5b82626711e88b40021b5368acb-1318031881.eu-central-1.elb.amazona
 < x-envoy-upstream-service-time: 11
 < server: envoy
 <
-* Connection #0 to host ac75b-1318031881.eu-central-1.elb.amazonaws.com left intact
+* Connection #0 to host ac75b-81.eu-central-1.elb.amazonaws.com left intact
 PERMISSION_DENIED:denypong.denier.default:Not allowed%
 ```
 
