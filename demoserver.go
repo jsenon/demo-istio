@@ -62,7 +62,15 @@ func main() {
 		// Zipkin shares span ID between client and server spans; it must be enabled via the following option.
 		zipkinSharedRPCSpan := jaeger.TracerOptions.ZipkinSharedRPCSpan(true)
 		// sender, _ := jaeger.NewUDPTransport("jaeger-agent.istio-system:5775", 0)
-		sender, _ := jaeger.NewUDPTransport(myjaeger, 0)
+		sender, err := jaeger.NewUDPTransport(myjaeger, 0)
+		if err != nil {
+			logger.Error("Failed to start jaeger udp transport",
+				zap.String("status", "ERROR"),
+				zap.Int("statusCode", 500),
+				zap.Duration("backoff", time.Second),
+				zap.Error(err),
+			)
+		}
 		tracer, closer := jaeger.NewTracer(
 			spanname,
 			jaeger.NewConstSampler(true),
