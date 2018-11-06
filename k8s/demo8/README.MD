@@ -37,7 +37,7 @@ You will see:
 With tls:
 
 ```sh
-cs://httpbin.org -vvv
+kubectl exec  toolingcontainer-57d8869654-q45mz  -it -- curl https://httpbin.org -vvv
 ```
 
 You will see:
