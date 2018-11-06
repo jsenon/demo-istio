@@ -79,3 +79,15 @@ Check that you are able to contact https://www.google.com
 ```sh
 kubectl exec  toolingcontainer-57d8869654-q45mz  -it -- curl https://www.google.com -vvv
 ```
+
+Apply new ServiceEntry for https://httpbin.org
+
+```sh
+istioctl create -f external-bis.yaml
+```
+
+And check that you are able to contact https://httpbin.org
+
+```sh
+kubectl exec  toolingcontainer-57d8869654-q45mz  -it -- curl https://httpbin.org -vvv
+```
