@@ -12,7 +12,6 @@ spec:
       tcp:
         maxConnections: 100
     outlierDetection:
-      http:
         baseEjectionTime: 30.000s
         consecutiveErrors: 1
         interval: 1.000s

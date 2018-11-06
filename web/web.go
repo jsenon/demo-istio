@@ -64,7 +64,6 @@ func Index(res http.ResponseWriter, req *http.Request) {
 			zap.Error(err),
 		)
 	}
-
 }
 
 // externalIP func that display ip of pod
