@@ -37,13 +37,13 @@ istioctl create -f demo7/quotas.yml
 Force 1 connexion:
 
 ```sh
-while true; do curl -s -o /dev/null http://ac75b5b82626768acb-1318031881.eu-central-1.elb.amazonaws.com/rate/; done
+while true; do curl -s -o /dev/null http://aee0fc8d0c6f711e8a24d02c2dbb86c0-1989099266.eu-central-1.elb.amazonaws.com/rate/; done
 ```
 
 Try another connexion:
 
 ```sh
-curl http://ac75b5b8268acb-1318031881.eu-central-1.elb.amazonaws.com/rate/ -v
+curl http://aee0fc8d0c6f711e8a24d02c2dbb86c0-1989099266.eu-central-1.elb.amazonaws.com/rate/ -v
 ```
 
 ### Notes

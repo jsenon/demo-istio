@@ -32,7 +32,7 @@ kubectl apply -f demo3/deployment_v002.yml
 Generate 200 with different service version
 
 ```sh
-curl http://ac7711e88b40021b5368acb-1318031881.eu-central-1.elb.amazonaws.com/canary/ -vv
+curl http://aee0fc8d0c6f711e8a24d02c2dbb86c0-1989099266.eu-central-1.elb.amazonaws.com/canary/ -vv
 ```
 
 Check log on both application version

@@ -31,11 +31,15 @@ istioctl create -f demo5/virtualservice-mirror.yml
 Curl your application demo-istio and see logs/traffic and demo-istio-v2:
 
 ```sh
-curl http://ac75b5acb-1318031881.eu-central-1.elb.amazonaws.com/mirror/healthz -vv
+curl http://aee0fc8d0c6f711e8a24d02c2dbb86c0-1989099266.eu-central-1.elb.amazonaws.com/mirror/healthz -vv
 ```
 
 ```sh
-kubectl logs -f demo-istio-v2-8644c9c56d-rch9g  demo-istio
+stern --selector app=demo-istio-v2
+```
+
+```sh
+stern --selector app=demo-istio
 ```
 
 ### Notes
