@@ -23,6 +23,8 @@ You will find in this repository some demo regarding istio functionalities:
   - Demonstrate SecurityPolicy
 - [Demo 7:](demo7/README.MD)
   - Demonstrate rate limit
+- [Demo 8:](demo8/README.MD)
+  - Demonstrate external traffic
 
 ### Notes
 
