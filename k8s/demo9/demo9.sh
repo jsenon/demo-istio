@@ -24,3 +24,11 @@ kubectl apply -f deployment_v002.yml
 # Create Virtual Service
 
 istioctl create -f virtualservice.yml
+
+# Inform
+
+echo ""
+echo "*****"
+echo "You can now configure Auth0, and adapt jwt-policy.yaml file"
+echo "After that applied it with istioctl create -f jwt-policy.yaml"
+echo "*****"
