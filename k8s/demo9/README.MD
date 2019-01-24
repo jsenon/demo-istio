@@ -231,3 +231,7 @@ Response:
 Hello, Im Service version: v.0.0.1
 My IP is: <REDACTED>
 ```
+
+### Further reading
+
+Have a look on [RBAC filtering](../demo10/README.MD) with scope of your access token

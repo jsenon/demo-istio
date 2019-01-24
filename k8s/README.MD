@@ -27,6 +27,8 @@ You will find in this repository some demo regarding istio functionalities:
   - Demonstrate external traffic
 - [Demo 9:](demo9/README.MD)
   - Demonstrate JWT Auth
+- [Demo 10:](demo10/README.MD)
+  - Demonstrate JWT Auth, RBAC with scope
 
 ### Notes
 

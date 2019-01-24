@@ -1,0 +1,56 @@
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: RbacConfig
+metadata:
+  name: default
+  namespace: istio-system
+spec:
+  mode: ON_WITH_INCLUSION
+  inclusion:
+    namespaces: ["default"]
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRole
+metadata:
+  name: demo-istio-viewer
+  namespace: default
+spec:
+  rules:
+  - services: ["demo-istio-v2.default.svc.cluster.local"]
+    methods: ["GET"]
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRoleBinding
+metadata:
+  name: demo-istio-viewer
+  namespace: default
+spec:
+  subjects:
+  - properties:
+      request.auth.claims[scope]: "read:version"
+  roleRef:
+    kind: ServiceRole
+    name: "demo-istio-viewer"
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRole
+metadata:
+  name: demo-istio-writer
+  namespace: default
+spec:
+  rules:
+  - services: ["demo-istio-v2.default.svc.cluster.local"]
+    methods: ["POST"]
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRoleBinding
+metadata:
+  name: demo-istio-writer
+  namespace: default
+spec:
+  subjects:
+  - properties:
+      request.auth.claims[scope]: "write:version"
+  roleRef:
+    kind: ServiceRole
+    name: "demo-istio-writer"
+
