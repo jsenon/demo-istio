@@ -25,6 +25,8 @@ You will find in this repository some demo regarding istio functionalities:
   - Demonstrate rate limit
 - [Demo 8:](demo8/README.MD)
   - Demonstrate external traffic
+- [Demo 9:](demo9/README.MD)
+  - Demonstrate JWT Auth
 
 ### Notes
 

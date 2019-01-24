@@ -8,5 +8,6 @@ kubectl delete -f demo5/
 kubectl delete -f demo6/
 kubectl delete -f demo7/
 kubectl delete -f demo8/
+kubectl delete -f demo9/
 kubectl delete ns mtls
 kubectl delete ns legacy

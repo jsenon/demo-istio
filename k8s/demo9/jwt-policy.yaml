@@ -1,0 +1,33 @@
+apiVersion: authentication.istio.io/v1alpha1
+kind: Policy
+metadata:
+  name: demo-istio-v2-auth-policy
+  namespace: prod
+spec:
+  targets:
+  - name: demo-istio-v2
+  peers:
+  origins:
+  - jwt:
+      audiences:
+      - "https://<REDACTED>amazonaws.com/v2/"
+      issuer: "https://<REDACTED>.eu.auth0.com/"
+      jwksUri: "https://<REDACTED>.eu.auth0.com/.well-known/jwks.json"
+  principalBinding: USE_ORIGIN
+---
+apiVersion: authentication.istio.io/v1alpha1
+kind: Policy
+metadata:
+  name: demo-istio-v1-auth-policy
+  namespace: prod
+spec:
+  targets:
+  - name: demo-istio
+  peers:
+  origins:
+  - jwt:
+      audiences:
+      - "https://<REDACTED>amazonaws.com/v1/"
+      issuer: "https://<REDACTED>.eu.auth0.com/"
+      jwksUri: "https://<REDACTED>.eu.auth0.com/.well-known/jwks.json"
+  principalBinding: USE_ORIGIN
