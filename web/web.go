@@ -125,5 +125,5 @@ func externalIP() (string, error) { // nolint: gocyclo
 			return ip.String(), nil
 		}
 	}
-	return "", errors.New("Are you connected to the network?")
+	return "", errors.New("are you connected to the network?")
 }
