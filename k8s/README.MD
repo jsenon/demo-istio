@@ -36,4 +36,4 @@ Most of informations regarding Istio [v1aplha3](https://preliminary.istio.io/doc
 
 ### Todo
 
-- JWT implementation
+- [x] JWT implementation
