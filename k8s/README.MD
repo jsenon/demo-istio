@@ -29,6 +29,8 @@ You will find in this repository some demo regarding istio functionalities:
   - Demonstrate JWT Auth
 - [Demo 10:](demo10/README.MD)
   - Demonstrate JWT Auth, RBAC with scope
+- [Demo 11:](demo11/README.MD)
+  - Demostrate Open Policy Agent and Istio Mixer
 
 ### Notes
 
