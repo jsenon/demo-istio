@@ -1,0 +1,25 @@
+apiVersion: "config.istio.io/v1alpha2"
+kind: rule
+metadata:
+ name: authz
+ namespace: istio-system
+spec:
+ match: "true"
+ actions:
+ - handler: opa-handler.opa.istio-system
+   instances:
+   - authz-instance.authorization.istio-system
+---
+apiVersion: "config.istio.io/v1alpha2"
+kind: authorization
+metadata:
+ name: authz-instance
+ namespace: istio-system
+spec:
+ subject:
+   user: source.uid | ""
+ action:
+   namespace: destination.namespace | "default"
+   service: destination.service | ""
+   method: request.method | ""
+   path: request.path | ""

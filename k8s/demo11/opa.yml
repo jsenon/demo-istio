@@ -1,0 +1,17 @@
+apiVersion: "config.istio.io/v1alpha2"
+kind: opa
+metadata:
+ name: opa-handler
+ namespace: istio-system
+spec:
+ policy:
+   - |+
+    package mixerauthz
+    
+    default allow = false
+
+    allow = true {
+      input.action.method = "PUT"
+    }
+ checkMethod: "data.mixerauthz.allow"
+ failClose: true
