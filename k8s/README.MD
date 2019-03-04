@@ -14,7 +14,7 @@ You will find in this repository some demo regarding istio functionalities:
 - [Demo 3:](demo3/README.MD)
   - Demonstrate canary implementation with service mesh
 - [Demo 4:](demo4/README.MD)
-  - Demonstrate delay with cutom header
+  - Demonstrate delay with custom header
   - Demonstrate circuit breaking with service mesh
 - [Demo 5:](demo5/README.MD)
   - Demonstrate Dark Traffic in order to test new applications release with real datas
@@ -30,7 +30,7 @@ You will find in this repository some demo regarding istio functionalities:
 - [Demo 10:](demo10/README.MD)
   - Demonstrate JWT Auth, RBAC with scope
 - [Demo 11:](demo11/README.MD)
-  - Demostrate Open Policy Agent and Istio Mixer
+  - Demonstrate Open Policy Agent and Istio Mixer
 
 ### Notes
 
