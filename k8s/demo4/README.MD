@@ -36,6 +36,8 @@ kubectl apply -f demo3/deployment_v002.yml
 
 ### Usage
 
+#### Delay
+
 Delay with custom header:
 
 ```sh
@@ -51,31 +53,28 @@ fortio load -c 1 -qps 0 -n 20 -loglevel Warning http://<REDACTED>/outlier/health
 Two concurent connection with circuit breakerm you should see some 5xx errors:
 
 ```sh
-fortio load -c 2 -qps 0 -n 20 -loglevel Warning http://<REDACTED>/outlier/healthz
+fortio load -c 6 -qps 0 -n 20 -loglevel Warning http://<REDACTED>/outlier/healthz
 ```
 
-Scale deployment demo-istio-v2:
+#### Outlier
 
-```sh
-kubectl scale deployment demo-istio-v2 --replicas=6
-```
 
 Outlier with 5xx error:
 
 ```sh
-fortio load -H "X-Custom-Error: true" -c 1 -qps 0 -n 20 -loglevel Warning http://<REDACTED>/outlier/healthz
+ kubectl exec -it sleep-88ddbcfdd-qmzm2 -- curl http://demo-istio-cb/healthz
 ```
 
 Observer envoy admin page for istio-ingressgateway:
 
 ```sh
-kubectl port-forward -n istio-system istio-ingressgateway-57f76dc4db-j9nwd 15000:15000
+kubectl port-forward -n default sleep-88ddbcfdd-qmzm2  15000:15000&
 ```
 
 You should see a number of ejection active, if not regenerate 5xx errors:
 
 ```sh
-watch -n1 'curl --silent 127.0.0.1:15000/stats | grep "cluster.outbound|80||demo-istio-v2.default.svc.cluster.local.outlier_detection.ejections_active"'
+watch -n1 'curl --silent 127.0.0.1:15000/stats | grep "cluster.outbound|80||demo-istio-cb.default.svc.cluster.local.outlier_detection.ejections_active"'
 ```
 
 Check logs on pod that have generate 5xx error to confirm that traffic is not sent to it.
