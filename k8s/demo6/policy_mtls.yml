@@ -1,8 +1,8 @@
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
+apiVersion: authentication.istio.io/v1alpha1
+kind: Policy
 metadata:
-  name: "enable-mtls"
-  namespace: "mtls"
+  name: default
+  namespace: mtls
 spec:
   peers:
   - mtls:

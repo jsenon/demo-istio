@@ -66,7 +66,7 @@ Perform First test:
 for from in "default" "mtls" "legacy"; do for to in "default" "mtls"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl --silent http://demo-istio-v2.${to}/healthz  -o /dev/null -w "sleep.${from} to demo-istio-v2.${to}: %{http_code}\n"; done; done
 ```
 
-You will see, that http_code are 200:
+You will see, that http_code are 200
 
 ```sh
 sleep.default to demo-istio-v2.default: 200
@@ -81,7 +81,12 @@ Check policies:
 
 ```sh
 kubectl get policies.authentication.istio.io -n default
-kubectl get policies.authentication.istio.io -n mtls
+```
+
+Check global mesh policy (Permissive by default)
+
+```
+kubectl get meshpolicies.authentication.istio.io
 ```
 
 Now enforce mtls namespace with mTLS:
@@ -96,13 +101,54 @@ Check if policy is correctly applied:
 kubectl get policies.authentication.istio.io -n mtls
 ```
 
-Perform First test:
+Check mTLS status, you should see a `STATUS` to `CONFLICT` as mTLS is not yet configured correctly:
+
+```sh
+istioctl authn tls-check demo-istio-v2.mtls.svc.cluster.local
+```
+
+Perform test, you should see some error from a namespace without istio to an istio mtls namespace.
+
+You should also see some 503, as the client side is still using plain-text.
 
 ```sh
 for from in "default" "mtls" "legacy"; do for to in "default" "mtls"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl --silent http://demo-istio-v2.${to}/healthz  -o /dev/null -w "sleep.${from} to demo-istio-v2.${to}: %{http_code}\n"; done; done
 ```
 
-You will see legacy namespace without istio can't contact service with istio and mTLS activate (`sleep.legacy to demo-istio-v2.mtls: 000`):
+```sh
+sleep.default to demo-istio-v2.default: 200
+sleep.default to demo-istio-v2.mtls: 503
+sleep.mtls to demo-istio-v2.default: 200
+sleep.mtls to demo-istio-v2.mtls: 503
+sleep.legacy to demo-istio-v2.default: 200
+sleep.legacy to demo-istio-v2.mtls: 000
+command terminated with exit code 56
+```
+
+To configure the client side, you need to set destination rules to use mutual TLS
+
+```sh
+istioctl create -f demo6/dest-mtls.yml
+```
+
+Check mTLS status, you should see a `STATUS` to `OK`
+
+```sh
+istioctl authn tls-check demo-istio-v2.mtls.svc.cluster.local
+```
+
+```sh
+HOST:PORT                                   STATUS     SERVER     CLIENT     AUTHN POLICY     DESTINATION RULE
+demo-istio-v2.mtls.svc.cluster.local:80     OK         mTLS       mTLS       default/mtls     default/mtls
+```
+
+Perform Final test:
+
+```sh
+for from in "default" "mtls" "legacy"; do for to in "default" "mtls"; do kubectl exec $(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name}) -c sleep -n ${from} -- curl --silent http://demo-istio-v2.${to}/healthz  -o /dev/null -w "sleep.${from} to demo-istio-v2.${to}: %{http_code}\n"; done; done
+```
+
+You will see legacy namespace without istio can't contact service with istio and mTLS activate (`sleep.legacy to demo-istio-v2.mtls: 000`), and no more 503:
 
 ```sh
 sleep.default to demo-istio-v2.default: 200
