@@ -2,6 +2,9 @@
 
 istioctl delete -f ../demo5/virtualservice-mirror.yml
 
+kubectl apply -f ../demo3/service_v2.yml
+kubectl apply -f ../demo3/deployment_v002.yml
+
 kubectl create ns mtls
 kubectl label namespace mtls istio-injection=enabled
 
